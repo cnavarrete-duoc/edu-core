@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./js/services.js"></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="./css/global.css" rel="stylesheet">
+
+    <title>EduCore | Cursos</title>
+</head>
+
+<body>
+    <div class="min-h-screen flex justify-center w-full">
+        <aside
+            class="fixed left-0 bg-blue-800 w-0 sm:w-60 text-white h-screen border-0 transform transition-transform duration-300 -translate-x-48 sm:translate-x-0">
+            <div class="py-4 flex items-center justify-center gap-4">
+                <div class="rounded-full bg-white">
+                    <img src="./images/logo-educore.png" alt="Logo" class="h-12">
+                </div>
+                <h3 class="text-lg font-bold text-center text-white">EduCore</h3>
+            </div>
+            <nav class="flex-1 mt-6">
+                <ul>
+                    <li>
+                        <a class="flex items-center py-4 px-4 hover:bg-blue-700 hover:cursor-pointer rounded"
+                            href="dashboard.html">
+                            <span class="material-icons mr-3">home</span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="flex items-center py-4 px-4 hover:bg-blue-700 hover:cursor-pointer rounded"
+                            href="users.html">
+                            <span class="material-icons mr-3">group</span>
+                            <span>Usuarios</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="flex items-center py-4 px-4 hover:bg-blue-700 hover:cursor-pointer rounded nav-active"
+                            href="courses.html">
+                            <span class="material-icons mr-3">library_books</span>
+                            <span>Cursos</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="w-full container mx-auto p-4 sm:pl-64">
+            <div data-content="course-cards" class="grid grid-auto-cols-3 gap-4">
+            </div>
+        </main>
+    </div>
+    <script>
+        const initCourses = () => {
+            console.info('initCourses method from courses.html');
+            const users = getUsers();
+            const courses = getCourses();
+
+            let courseCards = '';
+
+            courses.forEach((course, index) => {
+                const courseUsers = users.filter((user) => user.courses.includes(course.courseId) && user.roleId === 3);
+                const proffesor = users.find((user) => user.courses.includes(course.courseId) && user.roleId === 2) ?? { name: '', lastname: '' };
+                const mappedCourse = {
+                    ...course,
+                    students: courseUsers,
+                    proffesor
+                };
+                courseCards += `
+                        <div class="bg-white shadow-lg rounded-lg overflow-hidden animate__animated animate__fadeIn"
+                        style="animation-delay:calc(${index} * 0.1s);">
+                        <img class="w-full h-48 object-cover" src="https://picsum.photos/300/200?random=${index}"
+                            alt="Usuario" />
+                        <div class="bg-blue-900 text-white text-sm px-4 py-2 flex items-center">
+                            <span class="material-icons mr-2">library_books</span>
+                            <span>${mappedCourse.courseName}</span>
+                        </div>
+                        <div class="p-4">
+                            <div class="mt-4 space-y-2">
+                                <div class="flex items-center text-gray-700 text-sm">
+                                    <span class="material-icons mr-2">person</span>
+                                    <span>Profesor: ${mappedCourse.proffesor.name} ${mappedCourse.proffesor.lastname}</span>
+                                </div>
+                                <div class="flex items-center text-gray-700 text-sm">
+                                    <span class="material-icons mr-2">group</span>
+                                    <span>${mappedCourse.students.length} alumnos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+            });
+
+            const courseCardsContainer = document.querySelector('[data-content="course-cards"]');
+
+            if (courseCardsContainer) {
+                courseCardsContainer.innerHTML = courseCards;
+            }
+        };
+
+        initCourses();
+
+    </script>
+</body>
+
+</html>

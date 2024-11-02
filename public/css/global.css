@@ -1,0 +1,11 @@
+body {
+	font-family: 'Poppins', sans-serif;
+}
+
+.nav-active {
+	background-color: #2563eb;
+}
+
+.grid-auto-cols-3 {
+	grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+}
