@@ -38,7 +38,6 @@ const getCoursesByUserId = (userId) => {
 const login = (email, password) => {
 	console.info('login method from services.js');
 	const users = getUsers();
-	console.info(users);
 	const user = users.find((u) => u.email === email && u.password === password);
 	if (user) {
 		return user;
@@ -46,4 +45,25 @@ const login = (email, password) => {
 
 	console.info('Invalid credentials');
 	return null;
+};
+
+const logout = () => {
+	sessionStorage.removeItem('currentUser');
+	window.location.href = 'index.html';
+};
+
+const isLogged = () => {
+	const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+	if (currentUser) {
+		console.info('User is logged in');
+		window.location.href = 'dashboard.html';
+	}
+};
+
+const isNotLogged = () => {
+	const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+	if (!currentUser) {
+		console.info('User is not logged in');
+		window.location.href = 'index.html';
+	}
 };

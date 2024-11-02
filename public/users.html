@@ -5,23 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="./js/services.js"></script>
+    <script src="./assets/js/services.js"></script>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link href="./css/global.css" rel="stylesheet">
+    <link href="./assets/css/global.css" rel="stylesheet">
 
+    <script>
+        isNotLogged();
+    </script>
     <title>EduCore | Usuarios</title>
 </head>
 
 <body>
     <div class="min-h-screen flex justify-center w-full">
         <aside
-            class="fixed left-0 bg-blue-800 w-0 sm:w-60 text-white h-screen border-0 transform transition-transform duration-300 -translate-x-48 sm:translate-x-0">
+            class="py-4 fixed flex flex-col left-0 bg-blue-800 w-0 sm:w-60 text-white h-screen border-0 transform transition-transform duration-300 -translate-x-48 sm:translate-x-0">
             <div class="py-4 flex items-center justify-center gap-4">
                 <div class="rounded-full bg-white">
-                    <img src="./images/logo-educore.png" alt="Logo" class="h-12">
+                    <img src="./assets/images/logo-educore.png" alt="Logo" class="h-12">
                 </div>
                 <h3 class="text-lg font-bold text-center text-white">EduCore</h3>
             </div>
@@ -50,9 +53,17 @@
                     </li>
                 </ul>
             </nav>
+            <div class="mt-auto">
+                <button data-button="logout"
+                    class="flex w-full items-center py-4 px-4 hover:bg-blue-700 hover:cursor-pointer rounded"
+                    href="courses.html">
+                    <span class="material-icons mr-3">logout</span>
+                    <span>Logout</span>
+                </button>
+            </div>
         </aside>
         <main class="w-full container mx-auto p-4 sm:pl-64">
-            <div data-content="user-cards" class="grid grid-auto-cols-3 gap-4">
+            <div data-content="user-cards" class="grid grid-auto-cols-3 gap-8">
             </div>
         </main>
     </div>
@@ -77,7 +88,7 @@
                 };
 
                 userCards += `
-                    <div class="bg-white shadow-lg rounded-lg overflow-hidden animate__animated animate__fadeIn"
+                    <div class="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-lg hover:cursor-pointer animate__animated animate__fadeIn"
                     style="animation-delay:calc(${index} * 0.1s);">
                     <img class="w-full h-48 object-cover" src="${mappedUser.photo}"
                         alt="Usuario" />
@@ -110,6 +121,13 @@
         };
 
         initUsers();
+
+        const logoutBtn = document.querySelector('[data-button="logout"]');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                logout();
+            });
+        }
 
     </script>
 </body>
